@@ -1,0 +1,16 @@
+ORG 0000H 
+START: 
+    MOV R0, #01H 
+    MOV R1, #00H
+GEN_RANDOM:
+	MOV R0, #01H 
+    MOV R1, #00H
+    MOV A, R0  
+    ADD A, r0       
+    INC A   
+	MOV R0, A 
+	MOV A, R0
+	ANL A, #0x03
+	INC A   
+	MOV R1, A    
+	RET
