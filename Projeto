@@ -1,11 +1,41 @@
-ORG  0000H      
+ORG 0000H         
 START: 
-    MOV  A, P2         
-	JB   ACC.0, NO_PRESS
-	SETB P1.0          
-    SJMP END_IF        
-NO_PRESS:
-    CLR  P1.0           
-END_IF:
-    SJMP START        
-    END
+    MOV P1, #0FFH 
+	ACALL LED_4
+	MOV P1, #0FFH 
+	ACALL LED_2
+	MOV P1, #0FFH 
+	ACALL LED_1
+	MOV P1, #0FFH 
+	ACALL LED_3
+	SJMP $
+
+Led_1: 
+	CLR P1.0
+	ACALL DELAY
+    SETB P1.0     
+	RET
+Led_2: 
+	CLR P1.1
+	ACALL DELAY
+    SETB P1.1    
+	RET
+
+Led_3: 
+	CLR P1.2
+	ACALL DELAY
+    SETB P1.2    
+	RET
+Led_4: 
+	CLR P1.3
+	ACALL DELAY
+    SETB P1.3    
+	RET
+
+DELAY: 
+    MOV R0, #3
+DELAY_LOOP1:
+    NOP             
+    DJNZ R0, DELAY_LOOP1 
+    RET           
+END
