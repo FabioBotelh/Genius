@@ -1,65 +1,442 @@
-ORG  0000H      
-START: 
-    MOV  A, P2         
-	JB   ACC.0, NO_PRESS
-    MOV P1, #0FFH 
-	ACALL LED_4
-	MOV P1, #0FFH 
-	ACALL LED_2
-	MOV P1, #0FFH 
-	ACALL LED_1
-	MOV P1, #0FFH 
-	ACALL LED_3
-	ACALL DELAY
-	MOV P1, #0FFH 
-	ACALL LED_4
-	MOV P1, #0FFH 
-	ACALL LED_2	
-	MOV P1, #0FFH 
-	ACALL LED_1
-	MOV P1, #0FFH 
-	ACALL LED_4
-	MOV P1, #0FFH 
-	ACALL LED_3
-	MOV P1, #0FFH 
-	ACALL LED_1
-	MOV P1, #0FFH 
-	ACALL LED_2	
-	MOV P1, #0FFH 
-	ACALL LED_4
-	SJMP $
+; --- Mapeamento de Hardware (8051) ---
+      RS      equ     P1.3    ; Define o pino RS do LCD como P1.3
+      EN      equ     P1.2    ; Define o pino EN do LCD como P1.2
+       
+      org 0000h
+ 	LJMP INICIO    ; Inicia a execução do programa em INICIO
+       
+      org 0030h
+      INICIO:
+      	; Define os valores ASCII para os dígitos da sequência
+      	; 0 = 41h
+      	; 1 = 4Bh
+      	; 2 = 4Ah
+      	; 3	= 49h
+      	; 4 = 48h
+      	; 5 = 47h
+      	; 6	= 46h
+      	; 7 = 45h
+      	; 8 = 44h
+      	; 9 = 43h
+       
+ 	MOV 31H, #48h ; Define o primeiro dígito da sequência como '4' (48h)
+ 	MOV 32H, #4Ah ; Define o segundo dígito da sequência como '2' (4Ah)
+ 	MOV 33H, #4Bh ; Define o terceiro dígito da sequência como '1' (4Bh)
+ 	MOV 34H, #49h ; Define o quarto dígito da sequência como '3' (49h)
+	MOV 35H, #4Ah ; Define o segundo dígito da sequência como '2' (4Ah)
+ 	MOV 36H, #48h ; Define o terceiro dígito da sequência como '4' (48h)
+ 	MOV 37H, #49h ; Define o quarto dígito da sequência como '3' (49h)
+       
+       
+ 	MOV 20H, #'#' ; Define o caractere '#' para a tela do LCD
+ 	MOV 21H, #'0' ; Define o caractere '0' para a tela do LCD
+ 	MOV 22H, #'*' ; Define o caractere '*' para a tela do LCD
+	MOV 23H, #'9' ; Define o caractere '9' para a tela do LCD
+ 	MOV 24H, #'8' ; Define o caractere '8' para a tela do LCD
+ 	MOV 25H, #'7' ; Define o caractere '7' para a tela do LCD
+ 	MOV 26H, #'6' ; Define o caractere '6' para a tela do LCD
+ 	MOV 27H, #'5' ; Define o caractere '5' para a tela do LCD
+	MOV 28H, #'4' ; Define o caractere '4' para a tela do LCD
+	MOV 29H, #'3' ; Define o caractere '3' para a tela do LCD
+	MOV 2AH, #'2' ; Define o caractere '2' para a tela do LCD
+	MOV 2BH, #'1' ; Define o caractere '1' para a tela do LCD
+      	  
+      	
+ 	MOV R5,#3 ; Define o número de tentativas de sequência como 3
+	acall lcd_init; Inicializa o LCD
+      MAIN:
+	MOV R1, #41H ; Define o endereço de memória para armazenar a sequência digitada
+ 	MOV R3, #7 ; Define o número de dígitos da sequência como 7
+      	
+      ;; Imprime a mensagem "MEMORIZE A SEQUENCIA" na tela do LCD
+	mov A, #00h
+ 	ACALL posicionaCursor ; Posiciona o cursor no início da tela
+	MOV A, #'M'
+ 	ACALL sendCharacter ; Imprime o caractere 'M'
+ 	MOV A, #'E'
+ 	ACALL sendCharacter	; Imprime o caractere 'E'
+ 	MOV A, #'M'
+ 	ACALL sendCharacter ; Imprime o caractere 'M'
+ 	MOV A, #'O'
+ 	ACALL sendCharacter ; Imprime o caractere 'O'
+	MOV A, #'R'
+	ACALL sendCharacter ; Imprime o caractere 'R'
+	MOV A, #'I'
+	ACALL sendCharacter ; Imprime o caractere 'I'
+	MOV A, #'Z'
+	ACALL sendCharacter ; Imprime o caractere 'Z'
+	MOV A, #'E'
+	ACALL sendCharacter ; Imprime o caractere 'E'
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #'A'
+	ACALL sendCharacter ; Imprime o caractere 'A'
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #40H
+	ACALL posicionaCursor ; Posiciona o cursor na segunda linha da tela
+ 	MOV A, #'S'
+ 	ACALL sendCharacter ; Imprime o caractere 'S'
+ 	MOV A, #'E'
+ 	ACALL sendCharacter	; Imprime o caractere 'E'
+	MOV A, #'Q'
+ 	ACALL sendCharacter ; Imprime o caractere 'Q'
+	MOV A, #'U'
+	ACALL sendCharacter ; Imprime o caractere 'U'
+ 	MOV A, #'E'
+	ACALL sendCharacter		; Imprime o caractere 'E'
+	MOV A, #'N'
+ 	ACALL sendCharacter	; Imprime o caractere 'N'
+	MOV A, #'C'
+	ACALL sendCharacter ; Imprime o caractere 'C'
+ 	MOV A, #'I'		
+ 	ACALL sendCharacter	; Imprime o caractere 'I'
+ 	MOV A, #'A'
+ 	ACALL sendCharacter ; Imprime o caractere 'A'
+ 	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #00h
+ 	ACALL posicionaCursor ; Posiciona o cursor na terceira linha da tela
+	MOV A, #' '
+ 	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+ 	MOV A, #' '
+ 	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+ 	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #40H
+	ACALL posicionaCursor ; Posiciona o cursor na quarta linha da tela
+ 	MOV A, #' '
+ 	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter ; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+	ACALL sendCharacter		; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '		
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+ 	MOV A, #' '
+ 	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+	ACALL sendCharacter ; Imprime o caractere ' '
+ 	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na quinta linha da tela
+	MOV A, #'4'
+	ACALL sendCharacter	; Imprime o caractere '4'
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na sexta linha da tela
+	MOV A, #'2'
+	ACALL sendCharacter	; Imprime o caractere '2'
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na sétima linha da tela
+	MOV A, #'1'
+	ACALL sendCharacter	; Imprime o caractere '1'
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na oitava linha da tela
+	MOV A, #'3'
+	ACALL sendCharacter	; Imprime o caractere '3'
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na nona linha da tela
+	MOV A, #'2'
+	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na nona linha da tela
+	MOV A, #'4'
+	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na nona linha da tela
+	MOV A, #'3'
+	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
+	mov A, #07h
+ 	ACALL posicionaCursor ; Posiciona o cursor na nona linha da tela
+	MOV A, #' '
+	ACALL sendCharacter	; Imprime o caractere ' '
+	MOV A, #' '
+ 	ACALL sendCharacter	; Imprime o caractere ' '
 
-Led_1: 
-	CLR P1.0
-	ACALL DELAY
-    SETB P1.0     
-	RET
-Led_2: 
-	CLR P1.1
-	ACALL DELAY
-    SETB P1.1    
-	RET
 
-Led_3: 
-	CLR P1.2
-	ACALL DELAY
-    SETB P1.2    
-	RET
-Led_4: 
-	CLR P1.3
-	ACALL DELAY
-    SETB P1.3    
-	RET
-DELAY: 
-    MOV R0, #3
-DELAY_LOOP1:
-    NOP             
-    DJNZ R0, DELAY_LOOP1 
-    RET           
-	SETB P1.0          
-    SJMP END_IF        
-NO_PRESS:
-    NOP           
-END_IF:
-    SJMP START        
-    END
+       
+       
+      ROTINA:
+      	
+ 	ACALL leituraTeclado ; Lê o valor do teclado
+ 	JNB F0, ROTINA  ; Se uma tecla foi pressionada, repete a leitura
+      	
+	MOV A, #40h ; Define o valor inicial para o registrador A
+ 	ADD A, R0 ; Soma o valor da tecla pressionada ao registrador A
+ 	MOV R0, A ; Move o resultado para o registrador R0
+       
+	MOV @R1, A ; Armazena o dígito da sequência digitada no endereço de memória apontado por R1
+ 	INC R1; Incrementa o registrador R1 para apontar para o próximo local de memória
+       
+ 	MOV A, @R0 ; Move o valor do caractere correspondente à tecla pressionada para o registrador A
+      	    
+
+ 	CLR F0 ; Limpa a flag F0
+ 	DJNZ R3, ROTINA ; Decrementa o número de dígitos a serem digitados e repete a rotina se necessário
+      	
+ 	MOV R1, #41H; Define o endereço de memória para armazenar a sequência digitada
+ 	MOV R0, #31H;  Define o endereço de memória para armazenar a sequência correta
+ 	MOV R4, #7; Define o número de dígitos a serem comparados como 7
+       
+      	COMPARACAO:
+      		
+ 		MOV A, @R0 ; Move o valor do dígito da sequência correta para o registrador A
+		MOV B, @R1 ; Move o valor do dígito da sequência digitada para o registrador B
+ 		CJNE A,B , DIFERENTE ; Compara os valores em A e B. Se forem diferentes, pula para DIFERENTE
+		INC R1 ; Incrementa o registrador R1 para apontar para o próximo dígito da sequência digitada
+ 		INC R0; Incrementa o registrador R0 para apontar para o próximo dígito da sequência correta
+      		
+		DJNZ R4, COMPARACAO ; Decrementa o contador de dígitos e repete a comparação se necessário
+		SJMP CORRETO; Se a sequência estiver correta, pula para CORRETO
+       
+      CORRETO:
+ 		MOV P1, #0F0H ; Liga o LED verde
+      		
+      		; Imprime a mensagem "ABERTO" na tela do LCD
+		mov A, #00h
+ 		ACALL posicionaCursor ; Posiciona o cursor no início da tela
+ 		MOV A, #'S'
+ 		ACALL sendCharacter ; Imprime o caractere 'S'
+ 		MOV A, #'E'
+		ACALL sendCharacter	; Imprime o caractere 'E'
+		MOV A, #'Q'
+ 		ACALL sendCharacter ; Imprime o caractere 'Q'
+		MOV A, #'U'
+		ACALL sendCharacter ; Imprime o caractere 'U'
+ 		MOV A, #'E'
+		ACALL sendCharacter ; Imprime o caractere 'E'
+ 		MOV A, #'N'
+ 		ACALL sendCharacter	; Imprime o caractere 'N'
+ 		MOV A, #'C'
+ 		ACALL sendCharacter ; Imprime o caractere 'C'
+ 		MOV A, #'I'
+ 		ACALL sendCharacter ; Imprime o caractere 'I'
+		MOV A, #'A'
+ 		ACALL sendCharacter ; Imprime o caractere 'A'
+ 		MOV A, #' '
+ 		ACALL sendCharacter	; Imprime o caractere ' '
+ 		MOV A, #' '
+		ACALL sendCharacter ; Imprime o caractere ' '
+ 		MOV A, #' '
+		ACALL sendCharacter ; Imprime o caractere ' '
+		MOV A, #' '
+ 		ACALL sendCharacter ; Imprime o caractere ' '
+ 		MOV A, #' '
+		ACALL sendCharacter	; Imprime o caractere ' '
+		MOV A, #' '
+		MOV A, #40H
+		ACALL posicionaCursor ; Posiciona o cursor na segunda linha da tela
+		MOV A, #'C'
+		ACALL sendCharacter ; Imprime o caractere 'C'
+		MOV A, #'O'
+		ACALL sendCharacter ; Imprime o caractere 'O'
+		MOV A, #'R'
+		ACALL sendCharacter ; Imprime o caractere 'R'
+		MOV A, #'R'
+		ACALL sendCharacter ; Imprime o caractere 'R'
+		MOV A, #'E'
+		ACALL sendCharacter ; Imprime o caractere 'E'
+		MOV A, #'T'
+		ACALL sendCharacter ; Imprime o caractere 'T'
+		MOV A, #'A'
+		ACALL sendCharacter ; Imprime o caractere 'A'
+		MOV A, #' '
+		ACALL sendCharacter ; Imprime o caractere ' '
+		MOV A, #' '
+		ACALL sendCharacter ; Imprime o caractere ' '
+		SJMP FIM ; Finaliza a execução do programa
+       
+      		       
+      ; Caso a sequência estiver incorreta, executa esta função
+       
+      DIFERENTE:
+       	MOV A, #00h
+    	ACALL posicionaCursor ; Posiciona o cursor no início da tela
+    	MOV A, #'S'
+    	ACALL sendCharacter ; Imprime o caractere 'S'
+    	MOV A, #'E'
+    	ACALL sendCharacter    ; Imprime o caractere 'E'
+    	MOV A, #'Q'
+    	ACALL sendCharacter ; Imprime o caractere 'Q'
+    	MOV A, #'U'
+    	ACALL sendCharacter ; Imprime o caractere 'U'
+    	MOV A, #'E'
+    	ACALL sendCharacter        ; Imprime o caractere 'E'
+   		MOV A, #'N'
+    	ACALL sendCharacter    ; Imprime o caractere 'N'
+    	MOV A, #'C'
+   		ACALL sendCharacter ; Imprime o caractere 'C'
+    	MOV A, #'I'        
+    	ACALL sendCharacter    ; Imprime o caractere 'I'
+    	MOV A, #'A'
+    	ACALL sendCharacter ; Imprime o caractere 'A'
+    	MOV A, #' '
+    	ACALL sendCharacter ; Imprime o caractere ' '
+    	MOV A, #' '
+    	ACALL sendCharacter ; Imprime o caractere ' '
+    	MOV A, #' '
+    	ACALL sendCharacter ; Imprime o caractere ' '
+    	MOV A, #' '
+    	ACALL sendCharacter ; Imprime o caractere ' '
+    	MOV A, #' '
+    	ACALL sendCharacter ; Imprime o caractere ' '
+    	MOV A, #' '
+    	ACALL sendCharacter ; Imprime o caractere ' '
+    	MOV A, #' '
+    	ACALL sendCharacter ; Imprime o caractere ' '
+       	MOV A, #40h
+    	ACALL posicionaCursor ; Posiciona o cursor na segunda linha da tela
+    	MOV A, #'I'
+    	ACALL sendCharacter ; Imprime o caractere 'I'
+    	MOV A, #'N'
+    	ACALL sendCharacter ; Imprime o caractere 'N'
+    	MOV A, #'C'
+    	ACALL sendCharacter ; Imprime o caractere 'C'
+    	MOV A, #'O'
+    	ACALL sendCharacter ; Imprime o caractere 'O'
+    	MOV A, #'R'
+    	ACALL sendCharacter ; Imprime o caractere 'R'
+    	MOV A, #'R'
+    	ACALL sendCharacter	; Imprime o caractere 'R'
+    	MOV A, #'E'
+    	ACALL sendCharacter ; Imprime o caractere 'E'
+    	MOV A, #'T'
+    	ACALL sendCharacter ; Imprime o caractere 'T'
+    	MOV A, #'A'
+    	ACALL sendCharacter ; Imprime o caractere 'A'
+		DJNZ R5, RESET ; Decrementa o contador de tentativas e repete o processo se necessário
+		SJMP FIM ; Finaliza a execução do programa
+		
+     
+      RESET:
+	MOV R1, #41H ; Define o endereço de memória para armazenar a sequência digitada
+	MOV R3, #7 ; Define o número de dígitos da sequência como 7
+	LJMP MAIN ; Reinicia o processo de entrada da sequência
+ 
+      FIM:	
+      		
+ 		MOV A, #00h
+    		ACALL posicionaCursor ; Posiciona o cursor no início da tela
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #'F'
+    		ACALL sendCharacter ; Imprime o caractere 'F'
+    		MOV A, #'I'
+    		ACALL sendCharacter ; Imprime o caractere 'I'
+    		MOV A, #'M'
+    		ACALL sendCharacter ; Imprime o caractere 'M'
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #'D'
+    		ACALL sendCharacter ; Imprime o caractere 'D'
+    		MOV A, #'E'
+    		ACALL sendCharacter ; Imprime o caractere 'E'
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #'J'
+    		ACALL sendCharacter ; Imprime o caractere 'J'
+    		MOV A, #'O'
+    		ACALL sendCharacter ; Imprime o caractere 'O'
+    		MOV A, #'G'
+    		ACALL sendCharacter ; Imprime o caractere 'G'
+    		MOV A, #'O'
+    		ACALL sendCharacter ; Imprime o caractere 'O'
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #40H
+    		ACALL posicionaCursor ; Posiciona o cursor na segunda linha da tela
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+    		MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+   	 	MOV A, #' '
+   		ACALL sendCharacter ; Imprime o caractere ' '
+   		MOV A, #' '
+   		ACALL sendCharacter ; Imprime o caractere ' '
+   	 	MOV A, #' '
+    		ACALL sendCharacter ; Imprime o caractere ' '
+		sjmp $ ; Finaliza a execução do programa
+    	       
