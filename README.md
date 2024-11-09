@@ -32,6 +32,7 @@ Fluxograma:
 
 
 
-![image](https://github.com/user-attachments/assets/380d9a80-fc51-471e-8b07-dd20a766a1ba)
+![image](https://github.com/user-attachments/assets/372e182a-3463-4afb-b2a4-cd20d40dd89b)
+
 
   
