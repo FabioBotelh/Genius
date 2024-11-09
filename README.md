@@ -39,3 +39,22 @@ Divirta-se e desafie suas habilidades de memória com o nosso jogo "Genius" em A
 
 
 ![image](https://github.com/user-attachments/assets/fe4ca502-ec6e-42b2-83b5-e30a53165e74)
+
+
+
+Prints do Código:
+
+
+![image](https://github.com/user-attachments/assets/699ad72a-c023-4049-b624-cd831a3a5da3)
+
+![image](https://github.com/user-attachments/assets/1245da8d-d689-436b-93a0-b36a61b40812)
+
+![image](https://github.com/user-attachments/assets/4adc6453-5ecb-41f8-b89a-505bf1d743c1)
+
+![image](https://github.com/user-attachments/assets/9427367b-aaeb-415f-9832-ec66f3525e0e)
+
+![image](https://github.com/user-attachments/assets/a124a378-3507-42df-9346-6b32820a4bc2)
+
+![image](https://github.com/user-attachments/assets/31328d1f-6566-4965-88a8-82aed3f3eb55)
+
+
