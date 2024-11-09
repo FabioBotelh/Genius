@@ -440,3 +440,203 @@
     		ACALL sendCharacter ; Imprime o caractere ' '
 		sjmp $ ; Finaliza a execução do programa
     	       
+      		       
+      leituraTeclado:
+ 	MOV R0, #0		; Inicializa o registrador R0 com 0
+ 	MOV P0, #0FFh	; Define todos os pinos de P0 como saídas
+ 	CLR P0.0		; Desativa o pino P0.0
+ 	CALL colScan	; Verifica se uma tecla foi pressionada nas colunas
+ 	JB F0, finish		; Se uma tecla foi pressionada, salta para finish
+      					
+ 	SETB P0.0		; Ativa o pino P0.0
+ 	CLR P0.1			; Desativa o pino P0.1
+ 	CALL colScan		; Verifica se uma tecla foi pressionada nas colunas
+ 	JB F0, finish		; Se uma tecla foi pressionada, salta para finish
+      							
+	SETB P0.1			; Ativa o pino P0.1
+ 	CLR P0.2			; Desativa o pino P0.2
+ 	CALL colScan	; Verifica se uma tecla foi pressionada nas colunas
+ 	JB F0, finish	; Se uma tecla foi pressionada, salta para finish
+      						
+ 	SETB P0.2			; Ativa o pino P0.2
+ 	CLR P0.3			; Desativa o pino P0.3
+ 	CALL colScan		; Verifica se uma tecla foi pressionada nas colunas
+ 	JB F0, finish		; Se uma tecla foi pressionada, salta para finish
+      						
+      finish:
+ 	RET ; Retorna da sub-rotina
+       
+      colScan:
+ 	JNB P0.4, gotKey	; Se o pino P0.4 estiver baixo, salta para gotKey
+ 	INC R0				; Incrementa o registrador R0
+ 	JNB P0.5, gotKey	; Se o pino P0.5 estiver baixo, salta para gotKey
+ 	INC R0				; Incrementa o registrador R0
+ 	JNB P0.6, gotKey	; Se o pino P0.6 estiver baixo, salta para gotKey
+ 	INC R0				; Incrementa o registrador R0
+ 	RET				; Retorna da sub-rotina
+      gotKey:
+ 	SETB F0				; Define a flag F0 como alta, indicando que uma tecla foi pressionada
+ 	RET				; Retorna da sub-rotina
+       
+      lcd_init:
+       
+ 	CLR RS		; Define o pino RS como baixo
+ 	CLR P1.7	; Define o pino P1.7 como baixo
+ 	CLR P1.6		; Define o pino P1.6 como baixo
+	SETB P1.5		; Define o pino P1.5 como alto
+	CLR P1.4	; Define o pino P1.4 como baixo
+      	
+	SETB EN	; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+ 	CALL delay		; Espera um tempo
+       
+ 	SETB EN		; Define o pino EN como alto
+ 	CLR EN	; Define o pino EN como baixo
+      	
+ 	SETB P1.7 ; Define o pino P1.7 como alto
+      	
+ 	SETB EN	; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+ 	CALL delay		; Espera um tempo
+       
+ 	CLR P1.7		; Define o pino P1.7 como baixo
+ 	CLR P1.6		; Define o pino P1.6 como baixo
+ 	CLR P1.5		; Define o pino P1.5 como baixo
+ 	CLR P1.4		; Define o pino P1.4 como baixo
+       
+ 	SETB EN	; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+       
+ 	SETB P1.6	; Define o pino P1.6 como alto
+ 	SETB P1.5	; Define o pino P1.5 como alto
+       
+ 	SETB EN	; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+       
+ 	CALL delay	; Espera um tempo
+       
+ 	CLR P1.7	; Define o pino P1.7 como baixo
+ 	CLR P1.6		; Define o pino P1.6 como baixo
+ 	CLR P1.5		; Define o pino P1.5 como baixo
+ 	CLR P1.4	; Define o pino P1.4 como baixo
+       
+ 	SETB EN	; Define o pino EN como alto
+	CLR EN	; Define o pino EN como baixo
+       
+	SETB P1.7	; Define o pino P1.7 como alto
+	SETB P1.6		; Define o pino P1.6 como alto
+	SETB P1.5		; Define o pino P1.5 como alto
+	SETB P1.4		; Define o pino P1.4 como alto
+       
+	SETB EN		; Define o pino EN como alto
+	CLR EN		; Define o pino EN como baixo
+       
+	CALL delay	; Espera um tempo
+	RET ; Retorna da sub-rotina
+       
+       
+      sendCharacter:
+ 	SETB RS  	; Define o pino RS como alto
+ 	MOV C, ACC.7	; Move o bit 7 do acumulador para o registrador C
+ 	MOV P1.7, C		; Define o pino P1.7 de acordo com o valor de C
+ 	MOV C, ACC.6		; Move o bit 6 do acumulador para o registrador C
+ 	MOV P1.6, C			; Define o pino P1.6 de acordo com o valor de C
+ 	MOV C, ACC.5		; Move o bit 5 do acumulador para o registrador C
+ 	MOV P1.5, C			; Define o pino P1.5 de acordo com o valor de C
+	MOV C, ACC.4	; Move o bit 4 do acumulador para o registrador C
+ 	MOV P1.4, C			; Define o pino P1.4 de acordo com o valor de C
+       
+ 	SETB EN		; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+       
+ 	MOV C, ACC.3	; Move o bit 3 do acumulador para o registrador C
+ 	MOV P1.7, C		; Define o pino P1.7 de acordo com o valor de C
+	MOV C, ACC.2	; Move o bit 2 do acumulador para o registrador C
+	MOV P1.6, C		; Define o pino P1.6 de acordo com o valor de C
+ 	MOV C, ACC.1		; Move o bit 1 do acumulador para o registrador C
+	MOV P1.5, C		; Define o pino P1.5 de acordo com o valor de C
+ 	MOV C, ACC.0		; Move o bit 0 do acumulador para o registrador C
+ 	MOV P1.4, C		; Define o pino P1.4 de acordo com o valor de C
+       
+	SETB EN		; Define o pino EN como alto
+ 	CLR EN			; Define o pino EN como baixo
+       
+ 	CALL delay		; Espera um tempo
+	CALL delay		; Espera um tempo
+ 	RET ; Retorna da sub-rotina
+       
+      posicionaCursor:
+ 	CLR RS	; Define o pino RS como baixo
+ 	SETB P1.7		   ; Define o pino P1.7 como alto
+ 	MOV C, ACC.6		; Move o bit 6 do acumulador para o registrador C
+ 	MOV P1.6, C			; Define o pino P1.6 de acordo com o valor de C
+	MOV C, ACC.5		; Move o bit 5 do acumulador para o registrador C
+ 	MOV P1.5, C			; Define o pino P1.5 de acordo com o valor de C
+ 	MOV C, ACC.4	; Move o bit 4 do acumulador para o registrador C
+ 	MOV P1.4, C		; Define o pino P1.4 de acordo com o valor de C
+       
+ 	SETB EN			; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+       
+	MOV C, ACC.3	; Move o bit 3 do acumulador para o registrador C
+	MOV P1.7, C			; Define o pino P1.7 de acordo com o valor de C
+ 	MOV C, ACC.2		; Move o bit 2 do acumulador para o registrador C
+	MOV P1.6, C ; Define o pino P1.6 de acordo com o valor de C
+	MOV C, ACC.1		; Move o bit 1 do acumulador para o registrador C
+	MOV P1.5, C			; Define o pino P1.5 de acordo com o valor de C
+	MOV C, ACC.0	; Move o bit 0 do acumulador para o registrador C
+	MOV P1.4, C			; Define o pino P1.4 de acordo com o valor de C
+       
+	SETB EN		; Define o pino EN como alto
+	CLR EN			; Define o pino EN como baixo
+       
+	CALL delay			; Espera um tempo
+ 	CALL delay			; Espera um tempo
+ 	RET ; Retorna da sub-rotina
+       
+      retornaCursor:
+	CLR RS	; Define o pino RS como baixo
+	CLR P1.7		; Define o pino P1.7 como baixo
+	CLR P1.6	; Define o pino P1.6 como baixo
+ 	CLR P1.5		; Define o pino P1.5 como baixo
+ 	CLR P1.4		; Define o pino P1.4 como baixo
+       
+	SETB EN		; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+       
+	CLR P1.7		; Define o pino P1.7 como baixo
+ 	CLR P1.6		; Define o pino P1.6 como baixo
+ 	SETB P1.5		; Define o pino P1.5 como alto
+ 	SETB P1.4		; Define o pino P1.4 como alto
+       
+ 	SETB EN	; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+       
+ 	CALL delay		; Espera um tempo
+ 	RET ; Retorna da sub-rotina
+       
+      clearDisplay:
+ 	CLR RS	; Define o pino RS como baixo
+ 	CLR P1.7		; Define o pino P1.7 como baixo
+ 	CLR P1.6		; Define o pino P1.6 como baixo
+	CLR P1.5		; Define o pino P1.5 como baixo
+	CLR P1.4		; Define o pino P1.4 como baixo
+       
+ 	SETB EN		; Define o pino EN como alto
+ 	CLR EN		; Define o pino EN como baixo
+       
+ 	CLR P1.7	; Define o pino P1.7 como baixo
+ 	CLR P1.6	; Define o pino P1.6 como baixo
+	CLR P1.5		; Define o pino P1.5 como baixo
+	SETB P1.4	; Define o pino P1.4 como alto
+       
+ 	SETB EN	; Define o pino EN como alto
+	CLR EN		; Define o pino EN como baixo
+       
+ 	CALL delay		; Espera um tempo
+ 	RET ; Retorna da sub-rotina
+       
+      delay:
+ 	MOV R7, #15 ; Define o valor inicial do registrador R7 como 15
+ 	DJNZ R7, $ ; Decrementa o registrador R7 e repete a instrução enquanto R7 for diferente de zero
+ 	RET ; Retorna da sub-rotina
