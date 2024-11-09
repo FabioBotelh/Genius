@@ -1,5 +1,5 @@
 Projeto de Arquitetura de Computadores
-- Genius -
+ - Genius -
 
 
 •	Descrição
