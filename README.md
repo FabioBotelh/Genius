@@ -26,6 +26,12 @@ Divirta-se e desafie suas habilidades de memória com o nosso jogo "Genius" em A
 •	Autores
 - Fabio Martins Botelho -- RA: 22.122.068-4
 - Larissa Santos Fiuza -- RA: 22.123.042-8
+
+
+Fluxograma:
+
+
+
 ![image](https://github.com/user-attachments/assets/380d9a80-fc51-471e-8b07-dd20a766a1ba)
 
   
