@@ -54,7 +54,3 @@ Prints do Código:
 ![image](https://github.com/user-attachments/assets/9427367b-aaeb-415f-9832-ec66f3525e0e)
 
 ![image](https://github.com/user-attachments/assets/a124a378-3507-42df-9346-6b32820a4bc2)
-
-![image](https://github.com/user-attachments/assets/31328d1f-6566-4965-88a8-82aed3f3eb55)
-
-
